@@ -1,2 +1,2 @@
-flet(all)
+flet[all]
 uvicorn
