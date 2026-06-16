@@ -9,6 +9,7 @@ POSTS = [
         "category": "MATLAB",
         "category_color": "#D35400",
         "read_time": "5 min read",
+        "video_path": "demo.mp4",  # ← change this to your actual filename
         "summary": "How I built a multi-panel GUI calculator in MATLAB App Designer that computes Kinetic Energy, Potential Energy, Engineering Strain, and Work Done — with a live velocity vs energy graph.",
         "sections": [
             {
@@ -97,6 +98,21 @@ def build_formula_card(label, formula):
                 ft.Text(label, size=11, color="#92400E", weight=ft.FontWeight.W_700),
                 ft.Text(formula, size=15, color="#1A1A1A", weight=ft.FontWeight.W_800),
             ],
+        ),
+    )
+
+
+def build_video_player(path):
+    return ft.Container(
+        border_radius=10,
+        clip_behavior=ft.ClipBehavior.HARD_EDGE,
+        content=ft.Video(
+            playlist=[ft.VideoMedia(path)],
+            playlist_mode=ft.PlaylistMode.NONE,
+            width=600,
+            height=340,
+            autoplay=False,
+            show_controls=True,
         ),
     )
 
@@ -235,6 +251,13 @@ def build_detail_view(post, on_back):
                             ),
                             ft.Text(post["title"], size=22, weight=ft.FontWeight.W_900, color="#1A1A1A"),
                             ft.Divider(height=1, color="#F1F5F9"),
+
+                            # ── Video Section ──────────────────────────────
+                            ft.Text("Demo Video", size=16, weight=ft.FontWeight.W_800, color="#1A1A1A"),
+                            build_video_player(post["video_path"]),
+                            ft.Divider(height=1, color="#F1F5F9"),
+                            # ───────────────────────────────────────────────
+
                             ft.Text("Key Formulas", size=16, weight=ft.FontWeight.W_800, color="#1A1A1A"),
                             ft.Column(
                                 spacing=10,
@@ -250,10 +273,9 @@ def build_detail_view(post, on_back):
     )
 
 
-# ── This is the key fix: blog_page accepts the parent content column ──────────
 def blog_page(parent_content=None):
     list_view = build_list_view(lambda post: show_detail(post))
-    
+
     def show_detail(post):
         if parent_content:
             parent_content.controls.clear()
