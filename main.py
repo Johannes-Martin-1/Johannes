@@ -1,3 +1,4 @@
+import os
 import flet as ft
 
 from pages.home import home_page
@@ -73,4 +74,13 @@ def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    ft.app(target=main)
+    # Pull the port dynamically from Render, default to 8000 locally
+    port = int(os.environ.get("PORT", 8000))
+    
+    # Run Flet in web server mode so Render can route live traffic to it
+    ft.app(
+        target=main, 
+        view=ft.AppView.WEB_BROWSER, 
+        port=port, 
+        host="0.0.0.0"
+    )
