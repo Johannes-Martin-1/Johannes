@@ -9,7 +9,7 @@ POSTS = [
         "category": "MATLAB",
         "category_color": "#D35400",
         "read_time": "5 min read",
-        "video_path": "demo.mp4",  # ← change this to your actual filename
+        "video_url": "https://youtu.be/gKzAARwmRdQ",
         "summary": "How I built a multi-panel GUI calculator in MATLAB App Designer that computes Kinetic Energy, Potential Energy, Engineering Strain, and Work Done — with a live velocity vs energy graph.",
         "sections": [
             {
@@ -102,17 +102,37 @@ def build_formula_card(label, formula):
     )
 
 
-def build_video_player(path):
+def build_video_button(url):
     return ft.Container(
+        padding=ft.Padding(left=16, top=12, right=16, bottom=12),
         border_radius=10,
-        clip_behavior=ft.ClipBehavior.HARD_EDGE,
-        content=ft.Video(
-            playlist=[ft.VideoMedia(path)],
-            playlist_mode=ft.PlaylistMode.NONE,
-            width=600,
-            height=340,
-            autoplay=False,
-            show_controls=True,
+        bgcolor="#FEF3E2",
+        border=ft.Border(
+            left=ft.BorderSide(3, "#D35400"),
+            top=ft.BorderSide(1, "#F5CBA7"),
+            right=ft.BorderSide(1, "#F5CBA7"),
+            bottom=ft.BorderSide(1, "#F5CBA7"),
+        ),
+        content=ft.Row(
+            spacing=12,
+            controls=[
+                ft.Icon(ft.Icons.PLAY_CIRCLE, color="#D35400", size=28),
+                ft.Column(
+                    spacing=2,
+                    controls=[
+                        ft.Text("Watch the app demo", size=14, weight=ft.FontWeight.W_700, color="#1A1A1A"),
+                        ft.Text("Opens on YouTube", size=11, color="#92400E"),
+                    ],
+                ),
+                ft.Container(expand=True),
+                ft.Container(
+                    padding=ft.Padding(left=14, top=8, right=14, bottom=8),
+                    border_radius=8,
+                    bgcolor="#D35400",
+                    url=url,
+                    content=ft.Text("Watch ▶", size=13, color="#FFFFFF", weight=ft.FontWeight.W_700),
+                ),
+            ],
         ),
     )
 
@@ -254,7 +274,7 @@ def build_detail_view(post, on_back):
 
                             # ── Video Section ──────────────────────────────
                             ft.Text("Demo Video", size=16, weight=ft.FontWeight.W_800, color="#1A1A1A"),
-                            build_video_player(post["video_path"]),
+                            build_video_button(post["video_url"]),
                             ft.Divider(height=1, color="#F1F5F9"),
                             # ───────────────────────────────────────────────
 
